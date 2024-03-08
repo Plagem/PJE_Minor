@@ -1,6 +1,7 @@
 
 #include "PJE_Button.h"
 
+#include "PJE_Platform.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -53,7 +54,10 @@ void APJE_Button::ButtonEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* 
 	if(OtherActor == Character && Character)
 	{
 		bOnButton = false;
-		bButtonActive = false;
+		if(Platform)
+		{
+			Platform->SetbPlatformActive(false);
+		}
 	}
 }
 
@@ -72,7 +76,10 @@ void APJE_Button::MoveButton(float DeltaTime)
 		// 임계점까지 움직이면 bButtonActive을 true로 변경
 		if(FVector::Distance(NewLocation, TargetLocation) < 10.f)
 		{
-			bButtonActive = true;
+			if(Platform)
+			{
+				Platform->SetbPlatformActive(true);
+			}
 		}
 	}
 	else
@@ -80,7 +87,7 @@ void APJE_Button::MoveButton(float DeltaTime)
 		// Move Button to OriginLocation
 		FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, OriginLocation, DeltaTime, Speed);
 		ButtonMesh->SetRelativeLocation(NewLocation);
-}
+	}
 }
 
 // Called every frame

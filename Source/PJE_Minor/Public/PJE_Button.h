@@ -37,10 +37,8 @@ private:
 	UStaticMeshComponent* ButtonBorderMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta=(AllowPrivateAccess = true))
 	UStaticMeshComponent* ButtonMesh;
-
+	
 	bool bOnButton = false;
-	UPROPERTY(VisibleAnywhere)
-	bool bButtonActive = false;
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	FVector OriginLocation;

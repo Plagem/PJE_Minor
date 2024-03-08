@@ -19,8 +19,25 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+private:
+	void MovePlatform(float DeltaTime);
+
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void SetbPlatformActive(bool _bPlatformActive) { bPlatformActive = _bPlatformActive; }
+
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta=(AllowPrivateAccess = true))
+	UStaticMeshComponent* PlatformMesh;
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	FVector OriginLocation;
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	FVector MoveOffset;
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float MoveTime = 4.f;
+	
+	float PlatformDelayTime;
+
+	bool bPlatformActive;
 };
