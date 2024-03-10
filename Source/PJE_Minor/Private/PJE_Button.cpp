@@ -79,6 +79,7 @@ void APJE_Button::MoveButton(float DeltaTime)
 			if(Platform)
 			{
 				Platform->SetbPlatformActive(true);
+				UE_LOG(LogTemp, Warning, TEXT("Platform Actived"));
 			}
 		}
 	}

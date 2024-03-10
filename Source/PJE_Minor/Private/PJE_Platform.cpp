@@ -28,13 +28,19 @@ void APJE_Platform::MovePlatform(float DeltaTime)
 	
 	if(bPlatformActive)
 	{
-		FVector NewLocation = FMath::VInterpTo(CurrentLocation, TargetLocation, DeltaTime, Speed);
+		FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, Speed);
 		SetActorLocation(NewLocation);
+		AfterDisactive = 0.f;
 	}
 	else
 	{
-		FVector NewLocation = FMath::VInterpTo(CurrentLocation, OriginLocation, DeltaTime, Speed);
-		SetActorLocation(NewLocation);
+		AfterDisactive += DeltaTime;
+		// 캐릭터가 버튼을 떠나고 일정 시간이 지나면 플랫폼 원위치로 복귀
+		if(AfterDisactive > PlatformDelayTime)
+		{
+			FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, OriginLocation, DeltaTime, Speed);
+			SetActorLocation(NewLocation);
+		}
 	}
 }
 
@@ -42,4 +48,6 @@ void APJE_Platform::MovePlatform(float DeltaTime)
 void APJE_Platform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	MovePlatform(DeltaTime);
 }

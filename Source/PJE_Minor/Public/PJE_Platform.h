@@ -30,14 +30,18 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta=(AllowPrivateAccess = true))
 	UStaticMeshComponent* PlatformMesh;
-	UPROPERTY(EditAnywhere, Category = "Movement")
+	UPROPERTY(VisibleAnywhere, Category = "Movement")
 	FVector OriginLocation;
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	FVector MoveOffset;
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MoveTime = 4.f;
-	
-	float PlatformDelayTime;
 
+
+	float AfterDisactive = 2.f;
+	// The time from when the character releases the button until the platform moves into place
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float PlatformDelayTime = 2.f;
+	UPROPERTY(VisibleAnywhere, Category = "Movement")
 	bool bPlatformActive;
 };
