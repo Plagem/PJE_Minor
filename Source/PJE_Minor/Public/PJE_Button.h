@@ -47,5 +47,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MoveTime = 0.3f;
 
+	// 나중에 없앨 것
 	APawn* Character;
 };
