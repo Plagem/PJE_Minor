@@ -22,6 +22,7 @@ protected:
 private:
 	void MovePlatform(float DeltaTime);
 
+	
 public:	
 	virtual void Tick(float DeltaTime) override;
 
@@ -29,15 +30,15 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta=(AllowPrivateAccess = true))
-	UStaticMeshComponent* PlatformMesh;
+	TObjectPtr<UStaticMeshComponent> PlatformMesh;
+	
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 	FVector OriginLocation;
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	FVector MoveOffset;
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MoveTime = 4.f;
-
-
+	
 	float AfterDisactive = 2.f;
 	// The time from when the character releases the button until the platform moves into place
 	UPROPERTY(EditAnywhere, Category = "Movement")

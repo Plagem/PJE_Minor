@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "PJE_ButtonBase.generated.h"
 
+class APJE_Platform;
 class UBoxComponent;
 
 UCLASS()
@@ -25,6 +26,7 @@ protected:
 	UFUNCTION()
 	virtual void ButtonEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	void NotifyActiveToPlatform(bool ButtonActive);
 
 public:	
 	virtual void Tick(float DeltaTime) override;
@@ -44,7 +46,6 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	bool bButtonInteract = false;
 	
-	
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 	FVector OriginLocation;
 	UPROPERTY(EditAnywhere, Category = "Movement")
@@ -52,6 +53,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float MoveTime;
 
+	UPROPERTY(EditAnywhere)
+	TArray<TObjectPtr<APJE_Platform>> Platforms;
+	
 	// 나중에 없앨 것
 	APawn* Character;
 };

@@ -1,4 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "PJE_Platform.h"
@@ -12,7 +11,6 @@ APJE_Platform::APJE_Platform()
 	RootComponent = PlatformMesh;
 }
 
-// Called when the game starts or when spawned
 void APJE_Platform::BeginPlay()
 {
 	Super::BeginPlay();
@@ -44,7 +42,6 @@ void APJE_Platform::MovePlatform(float DeltaTime)
 	}
 }
 
-// Called every frame
 void APJE_Platform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

@@ -2,21 +2,25 @@
 
 #include "PJE_ButtonBase.h"
 
+#include "PJE_Platform.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 APJE_ButtonBase::APJE_ButtonBase()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Button Component 생성
+	// Button Component
 	ButtonBorderMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Button Boarder"));
 	RootComponent = ButtonBorderMesh;
+	ButtonBorderMesh->SetGenerateOverlapEvents(false);
+	
 	ButtonTrigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
 	ButtonTrigger->SetupAttachment(RootComponent);
+	
 	ButtonMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Button"));
 	ButtonMesh->SetupAttachment(RootComponent);
+	ButtonMesh->SetGenerateOverlapEvents(false);
 
 }
 
@@ -46,6 +50,7 @@ void APJE_ButtonBase::MoveButton(float DeltaTime)
 	// Interactive 여부에 따라 버튼을 임계점이나 원 위치로 움직이게 한다
 	if(bButtonInteract)
 	{
+		//UE_LOG(LogTemp, Warning, TEXT("Button Active"));
 		FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, Speed);
 		ButtonMesh->SetRelativeLocation(NewLocation);
 	}
@@ -56,12 +61,21 @@ void APJE_ButtonBase::MoveButton(float DeltaTime)
 	}
 
 	// Button이 임계점까지 움직이면 bButtonActive를 true로 변경
+	// ButtonActive 상태가 변경되면 Platform으로 Notify 보낸다
 	if(FVector::Distance(CurrentLocation, TargetLocation) < 5.f)
 	{
+		if(bButtonActive == false)
+		{
+			NotifyActiveToPlatform(true);
+		}
 		bButtonActive = true;
 	}
 	else
 	{
+		if(bButtonActive == true)
+		{
+			NotifyActiveToPlatform(false);
+		}
 		bButtonActive = false;
 	}
 }
@@ -84,10 +98,17 @@ void APJE_ButtonBase::ButtonEndOverlap(UPrimitiveComponent* OverlappedComp, AAct
 	}
 }
 
+void APJE_ButtonBase::NotifyActiveToPlatform(bool ButtonActive)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Now Button Active : %d"), ButtonActive);
+	Platforms[0]->SetbPlatformActive(ButtonActive);
+}
+
 // Called every frame
 void APJE_ButtonBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	MoveButton(DeltaTime);
 }
 
