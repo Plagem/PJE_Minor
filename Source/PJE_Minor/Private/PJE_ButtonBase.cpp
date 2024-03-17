@@ -83,6 +83,8 @@ void APJE_ButtonBase::MoveButton(float DeltaTime)
 void APJE_ButtonBase::ButtonBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
+	// 버튼 작동 테스트를 위해 APawn* Character를 생성하여 적용시킴
+	// 실제 게임에서는 Cast를 통해 PlayerDuck & Cat 판별해야 함
 	if(Character) // Nullptr Check
 	{
 		if(OtherActor != Character) return;
@@ -92,23 +94,26 @@ void APJE_ButtonBase::ButtonBeginOverlap(UPrimitiveComponent* OverlappedComp, AA
 void APJE_ButtonBase::ButtonEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	// 버튼 작동 테스트를 위해 APawn* Character를 생성하여 적용시킴
+	// 실제 게임에서는 Cast를 통해 PlayerDuck & Cat 판별해야 함
 	if(Character) // Nullptr Check
 	{
 		if(OtherActor != Character) return;
 	}
 }
 
+// Notify to every Platform connected to this button
 void APJE_ButtonBase::NotifyActiveToPlatform(bool ButtonActive)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Now Button Active : %d"), ButtonActive);
 	Platforms[0]->SetbPlatformActive(ButtonActive);
 }
 
-// Called every frame
 void APJE_ButtonBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// 매 틱마다 호출되는거 꼴받는데 어떻게 수정하지??
 	MoveButton(DeltaTime);
 }
 

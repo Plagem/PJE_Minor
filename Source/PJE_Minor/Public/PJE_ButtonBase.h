@@ -56,6 +56,6 @@ protected:
 	UPROPERTY(EditAnywhere)
 	TArray<TObjectPtr<APJE_Platform>> Platforms;
 	
-	// 나중에 없앨 것
+	// To be removed later
 	APawn* Character;
 };
